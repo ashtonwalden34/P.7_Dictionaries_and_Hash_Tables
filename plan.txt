@@ -1,0 +1,110 @@
+----------------------------------------------------------
+RESULTS
+----------------------------------------------------------
+0.00 
+100.00 100.00 
+150.00 300.00 150.00 
+175.00 425.00 425.00 175.00 
+187.50 500.00 625.00 500.00 187.50 
+193.75 543.75 762.50 762.50 543.75 193.75 
+196.88 568.75 853.12 962.50 853.12 568.75 196.88 
+
+
+----------------------------------------------------------
+1. weight_on_cacheless()
+----------------------------------------------------------
+recursive (no loops) function
+    > weight_on_cacheless(r,c)
+        - Returns weight on the back of the person in row r and column c
+        - Rows and cols are 0-based (0, 0)   (2, 0), (2, 1)
+        - Weights are floating point numbers
+
+----------------------------------------------------------
+2. Cacheless
+----------------------------------------------------------
+Run as main mod and accept the number of rows to process
+    - via sys.argv[1]
+    - print each row as one line at a time (2 decimal places for each)
+    - name file main.py
+    - User time.perf_counter() to time main function
+        > save output from step to file cacheless.txt
+
+----------------------------------------------------------
+3. With Caching
+----------------------------------------------------------
+new function weight_on_caching
+    > Store results in a look-up table and only compute new values
+    > save vals in a dictionary named 'cache' at the module level
+        - key is tuple (r, c)
+            - has hash method, but must implement my own hash functions for keys
+        - value is weight on value
+
+    1. Check to see if previously calculated val for (r, c)
+        - if yes, return
+        - else, compute new value
+            > add weights on top and save result to cache then return
+
+
+----------------------------------------------------------
+HashMap ADT
+----------------------------------------------------------
+Operations:
+    > get(key): return the value associated with key
+        - if not in dictionary return raise keyError
+    > set(key, value): add key, val pair to HashMap
+        - after adding if load-factor >= 80%, rehash the map 
+            - rehash to double current capacity
+    > remove(key): Remove the key and its val from the map
+        - if no key, do nothing
+        - don't rehash after removing
+    > clear: empty the HashMap
+    > capacity: Return the current capacity (number of buckets in map)
+    > size: Return the number of key-val pairs in map
+    > keys: Return a list of keyss
+
+
+----------------------------------------------------------
+Hashing function
+----------------------------------------------------------
+- Maps any tuple (r, c) into a unique number that can serve as an index
+
+- Must write your own function
+
+
+----------------------------------------------------------
+Collision Resolution
+----------------------------------------------------------
+- Create HashMap with initial capacity of 7 buckets
+    - capacity can dynamically grow
+
+
+----------------------------------------------------------
+Load Factor and Rehashing
+----------------------------------------------------------
+- load factor is f = n/k
+    > f = load factor
+    > n = number of entries in the hash map
+    > k is the number of buckets
+
+- larger load factor = slower hash table
+
+- Rehash when load-factor >= 80%
+    > new k = 2k - 1
+
+- Once HashMap is complete, use in place of Python dictionary used earlier
+    > "cache" was dictionary used earlier
+    > Should speed up by a lot
+
+- Save output from this step to with_caching.txt file
+
+
+----------------------------------------------------------
+Rounding Issue Announcement
+----------------------------------------------------------
+- In both cacheless weight_on functions
+    > compute weight contributed from  left and right shoulders (separate)
+    > Then round like this:
+        - left = round(left, 2)
+        - right = round(right, 2)
+    > do this before adding them together to compute the total weight on
+    
